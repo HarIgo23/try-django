@@ -8,7 +8,7 @@ def home_page(request):
 
 
 def about_page(request):
-    return render(request, "hello_world.html", {"title": "About Us!"})
+    return render(request, "about.html", {"title": "About Us!"})
 
 
 def contact_page(request):
