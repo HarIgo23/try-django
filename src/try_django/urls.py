@@ -25,6 +25,9 @@ from .views import (
     contact_page,
     example_page
 )
+from searches.views import (
+    search_view
+)
 
 urlpatterns = [
     path('', home_page),
@@ -34,6 +37,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog/', include('blog.urls')),
     path('blog-new/', blog_post_create_view),
+    path('search/', search_view)
 ]
 
 if settings.DEBUG:
