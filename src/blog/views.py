@@ -41,7 +41,7 @@ def blog_post_list_view(request):
 def blog_post_create_view(request):
     # create objects
     # ? use a form
-    form = BlogPostModelForm(request.POST or None)
+    form = BlogPostModelForm(request.POST or None, request.FILES or None)
     # if we don't use decorators
     # another way solve problem with anonymous user use:
     # if not request.user.is_authenticated:
