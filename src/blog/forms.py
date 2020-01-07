@@ -13,7 +13,7 @@ class BlogPostModelForm(forms.ModelForm):
     # title = forms.CharField()  # another way to change type of field
     class Meta:
         model = BlogPost
-        fields = ['title', 'slug', 'content']
+        fields = ['title', 'slug', 'content', 'publish_date']
 
     def clean_title(self, *args, **kwargs):
         instance = self.instance  # if create new object, instance will be None
