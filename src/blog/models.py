@@ -12,3 +12,14 @@ class BlogPost(models.Model):  # user.blogpost_set -> queryset related with user
     title = models.CharField(max_length=120)
     slug = models.SlugField(unique=True)
     content = models.TextField(null=True, blank=True)
+
+    def get_absolute_url(self):
+        return f"/blog/{self.slug}"
+
+    def get_edit_url(self):
+        absolute_url = self.get_absolute_url()
+        return f"{absolute_url}/edit"
+
+    def get_delete_url(self):
+        absolute_url = self.get_absolute_url()
+        return f"{absolute_url}/delete"
