@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.db.models import Q
 # if anywhere else you need user model
 # from django.contrib.auth import get_user_model
 
@@ -13,6 +14,15 @@ class BlogPostQuerySet(models.QuerySet):
         now = timezone.now()
         return self.filter(publish_date__lte=now)
 
+    def search(self, query):
+        lookup = (Q(title__icontains=query) |
+                  Q(content__icontains=query) |
+                  Q(slug__icontains=query) |
+                  Q(user__first_name__icontains=query) |
+                  Q(user__last_name__icontains=query) |
+                  Q(user__username__icontains=query))
+        return self.filter(lookup)
+
 
 class BlogPostManager(models.Manager):
     def get_queryset(self):
@@ -22,6 +32,10 @@ class BlogPostManager(models.Manager):
         now = timezone.now()
         return self.get_queryset().filter(publish_date__lte=now)
 
+    def search(self, query=None):
+        if query is None:
+            return self.get_queryset().none()
+        return self.get_queryset().published().search(query)
 
 class BlogPost(models.Model):  # user.blogpost_set -> queryset related with user
     user = models.ForeignKey(User, default=1, null=True, on_delete=models.SET_NULL)
