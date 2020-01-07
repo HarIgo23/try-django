@@ -32,10 +32,14 @@ def blog_post_create_view(request):
     # create objects
     # ? use a form
     form = BlogPostModelForm(request.POST or None)
+    # if we don't use decorators
+    # another way solve problem with anonymous user use:
+    # if not request.user.is_authenticated:
+    #     return render(request, "not-a-user.html", {})
     if form.is_valid():
         # form.save()
         obj = form.save(commit=False)
-        # some modification to obj
+        obj.user = request.user
         obj.save()
         form = BlogPostModelForm()
     template_name = 'form.html'
